@@ -12,21 +12,29 @@ stable versions.
 After cloning project to your local environment, open a terminal
 and run command bellow to install all required node packages.
 
-```npm i```
+```
+npm i
+```
  
 Then you can run project with running bellow command.
 
-```npm run start```
+```
+npm run start
+```
 
 By calling start script, the project will get served through:
 
-```http://localhost:8080/```
+```
+http://localhost:8080/
+```
 
 
 #Running Tests
 You can run tests by running:
 
-```npm run test```
+```
+npm run test
+```
 
 #Notes
 1. I moved all scripts written inside the test-html page to src/core/prebid.js and added a separate
