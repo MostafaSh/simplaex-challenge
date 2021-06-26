@@ -1,14 +1,17 @@
-#About Project
+# About Project
+
 This is a code challange provided by Simplaex company. the goal is to track prebid.js platform events.
 
-#Requirements
+# Requirements
+
 You need to make sure you have installed npm version +6.4.1 and nodejs version +10.13.0 (LTS) at least.
 
 Note that these version codes are minimal valid versions for webpack 5, and I didn't check for
 other packages minimal requirements. at the moment, npm v7.19.0 and node v14.17.1 are the latest
 stable versions.
 
-#Setup And Run
+# Setup And Run
+
 After cloning project to your local environment, open a terminal
 and run command bellow to install all required node packages.
 
@@ -29,14 +32,16 @@ http://localhost:8080/
 ```
 
 
-#Running Tests
+# Running Tests
+
 You can run tests by running:
 
 ```
 npm run test
 ```
 
-#Notes
+# Notes
+
 1. I moved all scripts written inside the test-html page to src/core/prebid.js and added a separate
 entry point for it, to have better control over order of loading scripts.
 
@@ -46,7 +51,8 @@ test cases.
 
 3. The written tests mostly are based on imaginary test cases to make the chance of writing more complex tests.
 
-#I had Some Issues
+# I had Some Issues
+
 In coding Challenge doc, you had suggested that I should use the simplified version of prebid.js.
 but, the simplified version was not able to load adds because of the conflict that was made between
 "Access-control-allow-origin: *" and xhr.withCredentials(true) of request bellow.
