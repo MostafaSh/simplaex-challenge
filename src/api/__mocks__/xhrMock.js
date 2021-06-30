@@ -1,6 +1,6 @@
 import {jest} from "@jest/globals";
 
-export default function mockXhrResponse(status, data) {
+export default function mockXhr(status, data) {
     const xhrMockObj = {
         open: jest.fn(),
         send: jest.fn(),
@@ -14,7 +14,5 @@ export default function mockXhrResponse(status, data) {
 
     window.XMLHttpRequest = jest.fn().mockImplementation(xhrMockClass);
 
-    setTimeout(() => {
-        xhrMockObj['onload']();
-    }, 0);
+    return xhrMockObj;
 }

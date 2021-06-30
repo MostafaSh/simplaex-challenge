@@ -1,31 +1,68 @@
 import {describe, test} from "@jest/globals";
 import rivraddonTrackerService from "./rivraddonTrackerService";
-import mockXhrResponse from "./__mocks__/xhrMock";
+import mockXhr from "./__mocks__/xhrMock";
 
-// as the tracker service is not real, I just wrote 2 simple imaginary test cases for this service
 describe('testing rivraddonTrackerService', () => {
 
-    describe('testing rivraddonTrackerService success cases', () => {
+    test('rivraddonTrackerService check xhr treated well', async () => {
+        const xhr = mockXhr();
+        const eventType = 'addAdUnits';
 
-        test('successful rivraddonTrackerService request when eventType is valid', () => {
-            mockXhrResponse(204);
+        setTimeout(() => xhr.onload());
 
-            return rivraddonTrackerService('addAdUnits')
-                .then(() => expect(true).toBeTruthy());
+        try {
+            await rivraddonTrackerService(eventType);
+        } catch (e){}
 
-        });
+        expect(xhr.open).toHaveBeenCalledTimes(1);
+        expect(xhr.open).toHaveBeenCalledWith("POST", "https://tracker.simplaex-code-challenge.com/");
 
+        expect(xhr.send).toHaveBeenCalledTimes(1);
+        expect(xhr.send).toHaveBeenCalledWith(JSON.stringify({"eventType": eventType}));
+
+        expect(xhr.setRequestHeader).toHaveBeenCalledTimes(1);
+        expect(xhr.setRequestHeader).toHaveBeenCalledWith("Content-Type", "application/json");
     });
 
-    describe('testing rivraddonTrackerService failure cases', () => {
+    test('successful rivraddonTrackerService request', async () => {
+        const xhr = mockXhr(204);
+        const eventType = 'addAdUnits';
 
-        test('unsuccessful rivraddonTrackerService request when eventType is invalid', () => {
-            expect.assertions(1);
-            mockXhrResponse(500);
+        setTimeout(() => xhr.onload());
 
-            return rivraddonTrackerService(null)
-                .catch(() => expect(true).toBeTruthy());
-        });
+        await expect(rivraddonTrackerService(eventType)).resolves.toBeUndefined();
+    });
 
+    test('unsuccessful rivraddonTrackerService with bad response code', async () => {
+        const xhr = mockXhr(500);
+
+        setTimeout(() => xhr.onload());
+
+        await expect(rivraddonTrackerService(null)).rejects.toEqual(expect.any(Error));
+    });
+
+    test('unsuccessful rivraddonTrackerService with bad response code', async () => {
+        const xhr = mockXhr(500);
+
+        setTimeout(() => xhr.onload());
+
+        await expect(rivraddonTrackerService(null)).rejects.toThrowError('unsuccessful response code');
+    });
+
+    test('aborted rivraddonTrackerService request test', async () => {
+        const xhr = mockXhr(200);
+
+        setTimeout(() => xhr.onabort());
+
+        await expect(rivraddonTrackerService(null)).rejects.toThrowError('aborted');
+    });
+
+    test('failed rivraddonTrackerService request test', async () => {
+        const xhr = mockXhr(200);
+        const error = new Error('failure');
+
+        setTimeout(() => xhr.onerror(error));
+
+        await expect(rivraddonTrackerService(null)).rejects.toThrowError(error);
     });
 });

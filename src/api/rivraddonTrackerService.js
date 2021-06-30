@@ -6,12 +6,12 @@ export default function (event_type) {
 
         const xhr = new XMLHttpRequest();
 
-        xhr.onerror = () => {
-            reject();
+        xhr.onerror = (e) => {
+            reject(e);
         };
 
         xhr.onabort = () => {
-            reject();
+            reject(new Error('aborted'));
         };
 
         xhr.onload = () => {
@@ -19,7 +19,7 @@ export default function (event_type) {
             if (status === 0 || (status >= 200 && status < 400)) {
                 resolve();
             } else {
-                reject();
+                reject(new Error('unsuccessful response code'));
             }
         };
 
